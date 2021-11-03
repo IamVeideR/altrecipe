@@ -1,17 +1,23 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div style="display: none">{{list}}</div>
+    <router-view/>
   </div>
 </template>
-
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  computed: {
+    list () {
+      localStorage.todoItems = JSON.stringify(this.$store.state.todoItems);
+      return this.$store.state.todoItems
+    }
+  },
+  created() {
+    if (localStorage.todoItems) {
+      this.$store.commit('createTodoItems', JSON.parse(localStorage.todoItems))
+    }
   }
 }
 </script>
@@ -23,6 +29,22 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  width: 100%;
+  padding-top: 80px;
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+#nav {
+  padding: 30px;
+}
+
+a {
+  color: #2c3e50;
+  text-decoration: none;
+}
+
+a.router-link-exact-active {
+  color: #42b983;
 }
 </style>
